@@ -1,0 +1,5 @@
+<Simulation version="3.6.2">
+   <XMLScript Type="XMLScript">Simulation/AntibioticResistence.xml</XMLScript>
+   <PythonScript Type="PythonScript">Simulation/AntibioticResistence.py</PythonScript>
+   <Resource Type="Python">Simulation/AntibioticResistenceSteppables.py</Resource>
+</Simulation>

@@ -1,0 +1,52 @@
+<CompuCell3D Revision="20150220" Version="3.7.3">
+
+   <Metadata>
+        <DebugOutputFrequency>1000</DebugOutputFrequency>
+   </Metadata> 
+   
+   <Potts>
+      <Dimensions x="500" y="500" z="1"/>
+      <Steps>1000001</Steps>
+      <RandomSeed>2284322</RandomSeed>
+      <Temperature>50.0</Temperature>
+      <NeighborOrder>3</NeighborOrder>
+      <Boundary_x>Periodic</Boundary_x>
+      <Boundary_y>Periodic</Boundary_y>      
+   </Potts>
+   
+   <Plugin Name="CellType">
+      <CellType TypeId="0" TypeName="Medium"/>
+      <CellType TypeId="1" TypeName="RegularBacteria"/>
+      <CellType TypeId="2" TypeName="ResistentBacteria"/>
+   </Plugin>
+   
+   <Plugin Name="Volume"/>
+      
+   <Plugin Name="CenterOfMass"/>
+   
+   
+   <Steppable Type="SteadyStateDiffusionSolver2D" Frequency="10">
+      <DiffusionField Name="Antibiotic">
+         <DiffusionData>
+            <FieldName>Antibiotic</FieldName>
+            <DiffusionConstant>13500.0</DiffusionConstant>
+            <DecayConstant>0.45</DecayConstant>
+         </DiffusionData>
+         <SecretionData>
+            <Uptake Type="RegularBacteria" MaxUptake="1.69" MichaelisMentenCoef="0.00256"/>                                    
+            <Uptake Type="ResistentBacteria" MaxUptake="1.69" MichaelisMentenCoef="0.00256"/>                                              
+            <Secretion Type="Medium">0.145</Secretion>
+         </SecretionData>
+      </DiffusionField>
+   </Steppable>
+   
+   <Steppable Type="BlobInitializer">
+      
+      <!-- Initial layout of cells in the form of rectangular slab -->
+      <Region>
+         <Center x="250" y="250" z="0"/>
+         <Radius>50</Radius>
+         <Types>RegularBacteria</Types>
+      </Region>
+   </Steppable>
+</CompuCell3D>
