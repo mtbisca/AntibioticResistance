@@ -4,7 +4,8 @@ import CompuCell
 import sys
 import random
 
-DAMAGE_FACTOR = 0.1 #.4535
+
+DAMAGE_FACTOR = 0.6 # if <4 no effect if 4<<5 barrier forms if 6> red cells only
 GROWTH_FACTOR = 1
 
 from PySteppablesExamples import MitosisSteppableBase
@@ -36,7 +37,6 @@ class MitosisSteppable(MitosisSteppableBase):
         MitosisSteppableBase.__init__(self,_simulator, _frequency)
     
     def step(self,mcs):
-        # print "INSIDE MITOSIS STEPPABLE"
         cells_to_divide=[]
         for cell in self.cellList:
             if cell.volume>50:
@@ -44,11 +44,7 @@ class MitosisSteppable(MitosisSteppableBase):
                 cells_to_divide.append(cell)
                 
         for cell in cells_to_divide:
-            # to change mitosis mode leave one of the below lines uncommented
             self.divideCellRandomOrientation(cell)
-            # self.divideCellOrientationVectorBased(cell,1,0,0)                 # this is a valid option
-            # self.divideCellAlongMajorAxis(cell)                               # this is a valid option
-            # self.divideCellAlongMinorAxis(cell)                               # this is a valid option
 
     def updateAttributes(self):
         self.parentCell.targetVolume /= 2.0 # reducing parent target volume                 
@@ -56,8 +52,6 @@ class MitosisSteppable(MitosisSteppableBase):
         parentARF = CompuCell.getPyAttrib(self.parentCell)["ARF"]
         childDict = CompuCell.getPyAttrib(self.childCell)
         childDict["ARF"] = parentARF + ((random.gauss(0.5, 0.17) - 0.5) * 0.1) # child cell slightly mutates ARF 
-        # for more control of what gets copied from parent to child use cloneAttributes function
-        # self.cloneAttributes(sourceCell=self.parentCell, targetCell=self.childCell, no_clone_key_dict_list = [attrib1, attrib2] )
         
         if childDict["ARF"] >= 0.8:
             self.childCell.type = self.RESISTENTBACTERIA
@@ -88,7 +82,6 @@ class DamageCalculatorSteppable(SteppableBasePy):
                     cellDict["ARF"] = 1
                 
                 if cellDict["ARF"] >= 0.8:
-                    #cellDict["ARF"] = 0.5
                     cell.type = self.RESISTENTBACTERIA
                 else:
                     cell.type = self.REGULARBACTERIA
@@ -112,9 +105,4 @@ class DamageCalculatorSteppable(SteppableBasePy):
                         cell.targetVolume=0
                         cell.lambdaVolume=100
                 
-
-        
-    def finish(self):
-        # this function may be called at the end of simulation - used very infrequently though
-        return
     

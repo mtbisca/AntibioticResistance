@@ -6,8 +6,7 @@
    
    <Potts>
       <Dimensions x="500" y="500" z="1"/>
-      <Steps>1000001</Steps>
-      <RandomSeed>2284322</RandomSeed>
+      <Steps>1000</Steps>
       <Temperature>50.0</Temperature>
       <NeighborOrder>3</NeighborOrder>
       <Boundary_x>Periodic</Boundary_x>
